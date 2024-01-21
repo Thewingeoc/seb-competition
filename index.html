@@ -5,33 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video and Images</title>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  .container {
-    width: 100%;
-    max-width: 800px; /* You can adjust the max width */
-    margin: auto;
-    text-align: center;
-  }
-  video, img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px; /* Space between elements */
-  }
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        width: 100%;
+        max-width: 800px; /* You can adjust the max width */
+        margin-left: 60px;
+    }
+    video, img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 0px; /* Space between elements */
+    }
+    p {
+        margin-top: 0px;
+    }
+    .video-txt {
+        font-style: italic;
+        color: red;
+    }
 </style>
 </head>
 <body>
-    <p>titolo</p>
 <div class="container">
-  <video id="videoPlayer" controls>
-    <source src="0001-0780.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <img src="PAG 01-pdf.jpg" alt="Image 1">
-  <img src="PAG 02-pdf.jpg" alt="Image 2">
-  <img src="PAG 03.jpg" alt="Image 3">
+    <h1>THE WING</h1>
+
+    <video id="videoPlayer" controls>
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <P class="video-txt">video with audio !!</P>
+
+    <img src="PAG 01.jpg" alt="Image 1">
+    <img src="PAG 02.jpg" alt="Image 2">
+    <img src="PAG 03.jpg" alt="Image 3">
+
+    <p><a href="https://www.youtube.com/watch?v=eEKlRUvk9zc">Sound of a Glass Armonica</a></p>
+    <p></p><a href="https://www.youtube.com/watch?v=Q9yZhkz94yE&t=3s">Construction of a glass harmonica</a></p>
+    <p></p><a href="https://www.youtube.com/watch?v=pygnOhyIOws">Verrophon</a></p>
 </div>
 
 <script>
