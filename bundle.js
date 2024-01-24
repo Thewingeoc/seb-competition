@@ -47088,16 +47088,6 @@ axesHelper.material.depthTest = false;
 axesHelper.renderOrder = 2;
 //scene.add(axesHelper);
 
-/*const grid = new GridHelper();
-grid.renderOrder = 1;
-scene.add(grid);
-
-/*const geometry = new BoxGeometry(2.0, 2.0, 0.5);
-const material = new MeshLambertMaterial({color: 0x88ff00, wireframe: false});
-const mesh = new Mesh(geometry, material);
-mesh.position.x = 2;
-scene.add(mesh);*/
-
 // Camera
 const camera = new PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight);
 camera.position.x = 0.65;
@@ -47118,10 +47108,10 @@ renderer.setClearColor(0xeeeeee, 1.0);
 const light = new DirectionalLight(0xffffff, 1);
 light.position.set(0.5, 1, -1);
 scene.add(light);
-const light2 = new DirectionalLight(0xffffff, 0.3);
+const light2 = new DirectionalLight(0xffffff, 0.6);
 light2.position.set(0, -1, 1);
 scene.add(light2);
-const light3 = new DirectionalLight(0xffffff, 0.3);
+const light3 = new DirectionalLight(0xffffff, 0.6);
 light3.position.set(-1, 1, -1);
 scene.add(light3);
 
@@ -47134,11 +47124,53 @@ window.addEventListener('resize', () => {
 
 // Load
 const loader = new GLTFLoader();
-loader.load( 'temp.glb', function ( gltf ) {
-	scene.add( gltf.scene );
+let meshAli;
+loader.load( 'ali.glb', function ( gltf ) {
+	meshAli = gltf.scene;
+  meshAli.rotation.x = -45;
+  scene.add( meshAli );
 }, undefined, function ( error ) {
 	console.error( error );
 } );
+/*let meshBalls;
+loader.load( 'balls.glb', function ( gltf ) {
+	meshBalls = gltf.scene;
+  meshBalls.rotation.x = -45;
+  scene.add( meshBalls );
+}, undefined, function ( error ) {
+	console.error( error );
+} );*/
+let meshGlass;
+loader.load( 'glass.glb', function ( gltf ) {
+	meshGlass = gltf.scene;
+  meshGlass.rotation.x = -45;
+  scene.add( meshGlass );
+}, undefined, function ( error ) {
+	console.error( error );
+} );
+let meshStruct;
+loader.load( 'struct.glb', function ( gltf ) {
+	meshStruct = gltf.scene;
+  meshStruct.rotation.x = -45;
+  scene.add( meshStruct );
+}, undefined, function ( error ) {
+	console.error( error );
+} );
+
+const angle = -0.01;
+let boolRotate = false;
+let boolExplode = false;
+function activateRotation() {
+      boolRotate = !boolRotate;
+}
+const myButtonRotation = document.getElementById('myButtonRotation');
+myButtonRotation.addEventListener('click', activateRotation);
+const explosion = 0.15;
+function activateExplosion() {
+    boolExplode = !boolExplode;
+}
+const myButtonExplosion = document.getElementById('myButtonExplosion');
+myButtonExplosion.addEventListener('click', activateExplosion);
 
 // Camera Controls
 const subsetOfTHREE = {
@@ -47163,9 +47195,43 @@ const cameraControls = new CameraControls(camera, canvas);
 cameraControls.dollyToCursor = true;
 
 // Animation loop
+let exploded = 0.0;
 function animate() {
     const delta = clock.getDelta();
     cameraControls.update(delta);
+
+    if (meshAli) {
+      if(boolRotate) {
+        meshAli.rotation.y += angle;
+      }
+    } else {
+        console.error('meshAli is not loaded yet.');
+    }
+
+    if(meshAli && meshGlass) {
+      if(boolExplode) {
+        if(exploded < explosion) {
+          meshAli.position.y += 0.01 * 2;
+          meshAli.position.z -= 0.013 * 2;
+          /*meshBalls.position.y += 0.01;
+          meshBalls.position.z -= 0.013;*/
+          meshGlass.position.y -= 0.01;
+          meshGlass.position.z += 0.013;
+          exploded += 0.01;
+        }
+      }
+      else {
+        if(exploded > 0.0) {
+          meshAli.position.y -= 0.01 * 2;
+          meshAli.position.z += 0.013 * 2;
+          /*meshBalls.position.y -= 0.01;
+          meshBalls.position.z += 0.013;*/
+          meshGlass.position.y += 0.01;
+          meshGlass.position.z -= 0.013;
+          exploded -= 0.01;
+        }
+      }
+    }
 
     requestAnimationFrame(animate);
     renderer.render(scene, camera);

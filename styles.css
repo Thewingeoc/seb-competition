@@ -35,3 +35,43 @@ p {
     max-height: 600px;
     outline: none;
 }
+#myButtonRotation {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 15px;
+    z-index: 100;
+}
+#myButtonExplosion {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 135px;
+    z-index: 100;
+}
+
+button {
+    background: #262626;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    color: white;
+    padding: 0.45em;
+}
+
+.images{
+    width: 170px;
+    margin: 2px;
+}
+
+.div-links{
+    display: flex;
+    flex-direction: row;
+}
+.div-link{
+    display: flex;
+    flex-direction: column;
+    margin: 3px;
+}
+
+a{
+    font-size: 12px;
+}
