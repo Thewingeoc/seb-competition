@@ -47154,7 +47154,7 @@ const sphereRadius = 0.011;
 const totalSpheres = 117;
 const angleBalls = Math.PI / 5.66;
 const spheres = [];
-for (let i = 0; i < totalSpheres; i++) {
+/*for (let i = 0; i < totalSpheres; i++) {
   let angle = (i / totalSpheres) * Math.PI * 2;
   let x = arrayRadius * Math.sin(angle);
   let y = arrayRadius * Math.cos(angle) * Math.cos(angleBalls) - sphereRadius * 2 * Math.sin(angleBalls);
@@ -47165,7 +47165,7 @@ for (let i = 0; i < totalSpheres; i++) {
   sphere.position.set(x, y, z);
   scene.add(sphere);
   spheres.push(sphere);
-}
+}*/
 
 const geometry = new BufferGeometry();
 const positions = [];
@@ -47198,19 +47198,28 @@ for (let latNumber = 0; latNumber <= heightSegments; latNumber++) {
 geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
 geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
 geometry.setAttribute('uv', new Float32BufferAttribute(uvs, 2));
-const material = new MeshLambertMaterial({ color: 0xffffff });
-const sphere = new Mesh(geometry, material);
-scene.add(sphere);
 const indices = [];
 for (let latNumber = 0; latNumber < heightSegments; latNumber++) {
-    for (let longNumber = 0; longNumber < widthSegments; longNumber++) {
-        const first = (latNumber * (widthSegments + 1)) + longNumber;
-        const second = first + widthSegments + 1;
-        indices.push(first, second, first + 1);
-        indices.push(second, second + 1, first + 1);
-    }
+  for (let longNumber = 0; longNumber < widthSegments; longNumber++) {
+    const first = (latNumber * (widthSegments + 1)) + longNumber;
+    const second = first + widthSegments + 1;
+    indices.push(first, second, first + 1);
+    indices.push(second, second + 1, first + 1);
+  }
 }
 geometry.setIndex(indices);
+for (let i = 0; i < totalSpheres; i++) {
+  let angle = (i / totalSpheres) * Math.PI * 2;
+  let x = arrayRadius * Math.sin(angle);
+  let y = arrayRadius * Math.cos(angle) * Math.cos(angleBalls) - sphereRadius * 2 * Math.sin(angleBalls);
+  let z = arrayRadius * Math.cos(angle) * Math.sin(angleBalls) + sphereRadius * 2 * Math.cos(angleBalls);
+  //const geometry = new BoxGeometry(sphereRadius, 0.016, 0.016);
+  const material = new MeshLambertMaterial({ color: 0xffffff });
+  const sphere = new Mesh(geometry, material);
+  sphere.position.set(x, y, z);
+  scene.add(sphere);
+  spheres.push(sphere);
+}
 
 const angle = -0.01;
 let boolRotate = false;
