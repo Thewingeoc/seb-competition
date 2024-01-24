@@ -47167,6 +47167,51 @@ for (let i = 0; i < totalSpheres; i++) {
   spheres.push(sphere);
 }
 
+const geometry = new BufferGeometry();
+const positions = [];
+const normals = [];
+const uvs = [];
+const radius = 0.011;
+const widthSegments = 32;
+const heightSegments = 16;
+for (let latNumber = 0; latNumber <= heightSegments; latNumber++) {
+  const theta = latNumber * Math.PI / heightSegments;
+  const sinTheta = Math.sin(theta);
+  const cosTheta = Math.cos(theta);
+
+  for (let longNumber = 0; longNumber <= widthSegments; longNumber++) {
+    const phi = longNumber * 2 * Math.PI / widthSegments;
+    const sinPhi = Math.sin(phi);
+    const cosPhi = Math.cos(phi);
+
+    const x = cosPhi * sinTheta;
+    const y = cosTheta;
+    const z = sinPhi * sinTheta;
+    const u = 1 - (longNumber / widthSegments);
+    const v = 1 - (latNumber / heightSegments);
+
+    normals.push(x, y, z);
+    uvs.push(u, v);
+    positions.push(radius * x, radius * y, radius * z);
+  }
+}
+geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+geometry.setAttribute('normal', new Float32BufferAttribute(normals, 3));
+geometry.setAttribute('uv', new Float32BufferAttribute(uvs, 2));
+const material = new MeshLambertMaterial({ color: 0xffffff });
+const sphere = new Mesh(geometry, material);
+scene.add(sphere);
+const indices = [];
+for (let latNumber = 0; latNumber < heightSegments; latNumber++) {
+    for (let longNumber = 0; longNumber < widthSegments; longNumber++) {
+        const first = (latNumber * (widthSegments + 1)) + longNumber;
+        const second = first + widthSegments + 1;
+        indices.push(first, second, first + 1);
+        indices.push(second, second + 1, first + 1);
+    }
+}
+geometry.setIndex(indices);
+
 const angle = -0.01;
 let boolRotate = false;
 let boolExplode = false;
